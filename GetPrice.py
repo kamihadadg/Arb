@@ -182,7 +182,7 @@ def get_prices():
         prices["Nobitex"] = "Error fetching price"  
     
     
-    CommitionSarafi=0.002
+    CommitionSarafi=0.0035
 
 
     nbid=prices["Nobitex bid"]

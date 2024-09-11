@@ -85,7 +85,7 @@ def get_price_from_Wallex():
             'X-API-Key': '10610|7kKfnHXfZRDEXvN44F5Yl1W31mXYEZp5ucfWqQs7'
         }
         
-        response = requests.get(url, headers=headers)
+        response = requests.get(url ,headers=headers)
         response.raise_for_status()
         price_data = response.json()
         
@@ -181,33 +181,32 @@ def get_prices():
     
     nbid=prices["Nobitex bid"]
     Waskp=prices["Wallex askP"]
-    Percent=(100*(nbid-Waskp)/(nbid if nbid > Waskp else Waskp)),
-    MyComm=abs(nbid-Waskp)-0.0035*(nbid+Waskp),
-    Commition=0.0035*(nbid+Waskp),
-    Deal=('Deal ",'if (abs(nbid-Waskp)-0.0035*(nbid+Waskp)>0) else "No Deal"),
-    Buyfrom=("Nobitext" if nbid < Waskp else "Wallex"),
-    Sellfrom=("Nobitext" if nbid > Waskp else "Wallex"),
+    Percent=(100*(nbid-Waskp)/(nbid if nbid > Waskp else Waskp))
+    MyComm=abs(nbid-Waskp)-0.0035*(nbid+Waskp)
+    Commition=0.0035*(nbid+Waskp)
+    Deal=('Deal ",'if (abs(nbid-Waskp)-0.0035*(nbid+Waskp)>0) else "No Deal")
+    Buyfrom=("Nobitext" if nbid < Waskp else "Wallex")
+    Sellfrom=("Nobitext" if nbid > Waskp else "Wallex")
     
     return jsonify(
                    
                    {
                        
-                        "Nbid":nbid,
-                       "Wask":Waskp,
+                    "Nbid":nbid,
+                    "Wask":Waskp,
+                   },
+                       
+                   {    
+                    "Percent":Percent,
+                    "MyComm":MyComm,
+                    "Commition":Commition,
+                    
                    },
                    {
-                       
-                       
-                       "Percent":Percent,
-                       "MyComm":MyComm,
-                       "Commition":Commition,
-                    
+                    "Deal":Deal,
+                    "Buyfrom":Buyfrom,
+                    "Sellfrom":Sellfrom,
                     },
-                    {
-                        "Deal":Deal,
-                        "Buyfrom":Buyfrom,
-                        "Sellfrom":Sellfrom,
-                    }
                   
                    
                    )

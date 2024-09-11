@@ -81,11 +81,14 @@ def get_price_from_bybit():
 def get_price_from_Wallex():
     try:
         url = "https://api.wallex.ir/v1/depth?symbol=USDTTMN"
-        headers = {
-            'X-API-Key': '10610|7kKfnHXfZRDEXvN44F5Yl1W31mXYEZp5ucfWqQs7'
-        }
+
+        # headers = {
+        #     'X-API-Key': '10610|7kKfnHXfZRDEXvN44F5Yl1W31mXYEZp5ucfWqQs7'
+        # }
         
-        response = requests.get(url ,headers=headers)
+        # response = requests.get(url ,headers=headers)
+
+        response = requests.get(url )
         response.raise_for_status()
         price_data = response.json()
         
@@ -179,12 +182,16 @@ def get_prices():
         prices["Nobitex"] = "Error fetching price"  
     
     
+    CommitionSarafi=0.002
+
+
     nbid=prices["Nobitex bid"]
     Waskp=prices["Wallex askP"]
-    Percent=(100*(nbid-Waskp)/(nbid if nbid > Waskp else Waskp))
-    MyComm=abs(nbid-Waskp)-0.0035*(nbid+Waskp)
-    Commition=0.0035*(nbid+Waskp)
-    Deal=('Deal ",'if (abs(nbid-Waskp)-0.0035*(nbid+Waskp)>0) else "No Deal")
+    Percent=abs(100*(nbid-Waskp)/(nbid if nbid > Waskp else Waskp))
+    Commition=CommitionSarafi*(nbid+Waskp)
+    MyComm=abs(nbid-Waskp)
+    Profit=MyComm-Commition
+    Deal=('Deal ",'if (abs(nbid-Waskp)-Commition>0) else "No Deal")
     Buyfrom=("Nobitext" if nbid < Waskp else "Wallex")
     Sellfrom=("Nobitext" if nbid > Waskp else "Wallex")
     
@@ -200,6 +207,7 @@ def get_prices():
                     "Percent":Percent,
                     "MyComm":MyComm,
                     "Commition":Commition,
+                    "Profit":Profit,
                     
                    },
                    {
@@ -208,7 +216,7 @@ def get_prices():
                     "Sellfrom":Sellfrom,
                     },
                   
-                   
+                   prices,
                    )
     # return jsonify({
     #                     'Naskp':prices["Nobitex askP"],
